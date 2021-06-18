@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "OPERATION")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Operation {
 
     @Id
@@ -51,12 +53,16 @@ public class Operation {
         return montant;
     }
 
-    public void setMontant(Double montant) {
+    public void setMontant(Double montant1, Compte comptebenef, Compte compteorigine) {
+        montant = (montant1);
+        Double newsoldebenef = comptebenef.getSolde();
+        newsoldebenef+=montant1;
+        comptebenef.setSolde(newsoldebenef);
 
-        this.montant = montant;
-        Double newsolde = this.compte.getSolde();
-        newsolde+=montant;
-        this.compte.setSolde(newsolde);
+        Double newsoldeorigine = compteorigine.getSolde();
+        newsoldeorigine = newsoldeorigine - montant1;
+        compteorigine.setSolde(newsoldeorigine);
+
     }
 
     public String getMotif() {
