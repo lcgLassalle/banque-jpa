@@ -1,6 +1,7 @@
 package fr.diginamic.entites;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class Banque {
     private String nom;
 
     @OneToMany(mappedBy = "banque")
-    Set<Client> clients;
+    Set<Client> clients = new HashSet<>();
 
     public Banque(){}
 
@@ -36,6 +37,14 @@ public class Banque {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Client client) {
+        this.clients.add(client);
     }
 
     @Override

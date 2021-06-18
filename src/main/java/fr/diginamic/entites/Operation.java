@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "OPERATION")
 public class Operation {
 
     @Id
@@ -19,6 +18,10 @@ public class Operation {
 
     @Column(name = "MOTIF")
     private String motif;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_COMPTE")
+    private Compte compte;
 
     public  Operation(){}
 
@@ -49,7 +52,11 @@ public class Operation {
     }
 
     public void setMontant(Double montant) {
+
         this.montant = montant;
+        Double newsolde = this.compte.getSolde();
+        newsolde+=montant;
+        this.compte.setSolde(newsolde);
     }
 
     public String getMotif() {
@@ -58,6 +65,14 @@ public class Operation {
 
     public void setMotif(String motif) {
         this.motif = motif;
+    }
+
+    public Compte getCompte() {
+        return compte;
+    }
+
+    public void setCompte(Compte compte) {
+        this.compte = compte;
     }
 
     @Override

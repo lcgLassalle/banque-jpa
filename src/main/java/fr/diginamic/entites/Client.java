@@ -2,6 +2,7 @@ package fr.diginamic.entites;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "CLIENT")
@@ -26,6 +27,12 @@ public class Client {
     @ManyToOne
     @JoinColumn(name = "ID_Banque")
     private Banque banque;
+
+    @ManyToMany
+    @JoinTable(name = "COMPTETOCLIENT",
+        joinColumns = @JoinColumn(name = "ID_CLIENT", referencedColumnName = "ID"),
+        inverseJoinColumns = @JoinColumn(name = "ID_COMPTE", referencedColumnName = "ID"))
+    private Set<Compte> comptesCommun;
 
     public Client(){}
 
@@ -66,6 +73,22 @@ public class Client {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    public Banque getBanque() {
+        return banque;
+    }
+
+    public void setBanque(Banque banque) {
+        this.banque = banque;
+    }
+
+    public Set<Compte> getComptesCommun() {
+        return comptesCommun;
+    }
+
+    public void setComptesCommun(Set<Compte> comptesCommun) {
+        this.comptesCommun = comptesCommun;
     }
 
     @Override

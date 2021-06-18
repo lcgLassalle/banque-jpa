@@ -1,6 +1,8 @@
 package fr.diginamic.entites;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "COMPTE")
@@ -14,6 +16,16 @@ public class Compte {
 
     @Column(name = "SOLDE")
     private Double solde;
+
+
+    @OneToMany(mappedBy = "compte")
+    private Set<Operation> operations = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "COMPTETOCLIENT",
+            joinColumns = @JoinColumn(name = "ID_COMPTE", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ID_CLIENT", referencedColumnName = "ID"))
+    private Set<Client> clientMultiple = new HashSet<>();
 
     public Compte(){}
 
@@ -44,6 +56,22 @@ public class Compte {
 
     public void setSolde(Double solde) {
         this.solde = solde;
+    }
+
+    public Set<Operation> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(Operation operations) {
+        this.operations.add(operations);
+    }
+
+    public Set<Client> getClientMultiple() {
+        return clientMultiple;
+    }
+
+    public void setClientMultiple(Client client) {
+        this.clientMultiple.add(client);
     }
 
     @Override
